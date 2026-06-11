@@ -1,22 +1,63 @@
 import java.util.List;
 
 public class Main {
-    // Node class
-    public static void main(String[] args) {
-        int n = 5;
-        int cols_rows = (2 * n) -1;
-        int k = 0;
-        System.out.println("cols and rows : "+cols_rows);
-        for(int i=0;i<cols_rows;i++){
-            k = i < n ? ++k : --k;
-            for(int j=0;j<cols_rows;j++){
-                if(j == i || (cols_rows-1)-j == i){
-                   System.out.print(k+" ");
-                }else{
-                    System.out.print("* ");
-                }
-            }
-            System.out.println();
+    static class Tree{
+        int val;
+        Tree left;
+        Tree right;
+        Tree(int n){
+            this.val = n;
+            left = null;
+            right = null;
         }
+    }
+    public static void main(String[] args) {
+        Tree parent = new Tree(1);
+        Tree left = new Tree(2);
+        Tree right = new Tree(3);
+        Tree left1 = new Tree(4);
+        Tree right1= new Tree(5);
+        parent.left = left;
+        parent.right = right;
+        left.left = left1;
+        left.right = right1;
+        System.out.println("preOrder : ");
+        preOrder(parent);
+        System.out.println();
+        System.out.println("postOrder : ");
+        postOrder(parent);
+        System.out.println();
+        System.out.println("inOrder : ");
+        inOrder(parent);
+        System.out.println();
+    }
+    // preorder => Root Left Right
+    public static void preOrder(Tree node){
+        if(node == null){
+            return;
+        }
+        System.out.print(node.val+" ");
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+    // postorder => left right root
+    public static void postOrder(Tree node){
+        if(node == null){
+            return;
+        }
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.val+" ");
+
+    }
+    // inorder => left root right
+        public static void inOrder(Tree node){
+        if(node == null){
+            return;
+        }
+        inOrder(node.left);
+        System.out.print(node.val+" ");
+        inOrder(node.right);
+
     }
 }
