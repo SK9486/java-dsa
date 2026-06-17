@@ -1,63 +1,71 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
-    static class Tree{
-        int val;
-        Tree left;
-        Tree right;
-        Tree(int n){
-            this.val = n;
-            left = null;
-            right = null;
-        }
-    }
-    public static void main(String[] args) {
-        Tree parent = new Tree(1);
-        Tree left = new Tree(2);
-        Tree right = new Tree(3);
-        Tree left1 = new Tree(4);
-        Tree right1= new Tree(5);
-        parent.left = left;
-        parent.right = right;
-        left.left = left1;
-        left.right = right1;
-        System.out.println("preOrder : ");
-        preOrder(parent);
-        System.out.println();
-        System.out.println("postOrder : ");
-        postOrder(parent);
-        System.out.println();
-        System.out.println("inOrder : ");
-        inOrder(parent);
-        System.out.println();
-    }
-    // preorder => Root Left Right
-    public static void preOrder(Tree node){
-        if(node == null){
-            return;
-        }
-        System.out.print(node.val+" ");
-        preOrder(node.left);
-        preOrder(node.right);
-    }
-    // postorder => left right root
-    public static void postOrder(Tree node){
-        if(node == null){
-            return;
-        }
-        postOrder(node.left);
-        postOrder(node.right);
-        System.out.print(node.val+" ");
+    static class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
 
-    }
-    // inorder => left root right
-        public static void inOrder(Tree node){
-        if(node == null){
-            return;
-        }
-        inOrder(node.left);
-        System.out.print(node.val+" ");
-        inOrder(node.right);
-
+    TreeNode(int n) {
+        this.val = n;
+        left = null;
+        right = null;
     }
 }
+
+public static void main(String[] args) {
+
+TreeNode root = new TreeNode(1);
+
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+
+root.left.left = new TreeNode(4);
+
+root.right.right = new TreeNode(5);
+    // TreeNode root = new TreeNode(1);
+
+    // root.left = new TreeNode(2);
+    // root.right = new TreeNode(3);
+
+    // root.right.left = new TreeNode(4);
+    // root.right.right = new TreeNode(5);
+    BFS(root);
+}
+    public static void BFS(TreeNode root){
+        Deque<TreeNode> dq = new LinkedList<>();
+        List<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> ele = new ArrayList<>();
+        dq.add(root);
+        int size = dq.size();
+        System.out.println("size : "+size);
+        int level = 0;
+        while(!dq.isEmpty()){
+            System.out.println("level : "+level);
+            for(int i=0;i<size;i++){
+                TreeNode curr = dq.removeFirst();
+                ele.add(curr.val);
+                System.out.println(curr.val);
+                if(curr.left != null){
+                    dq.add(curr.left);
+                }
+                if(curr.right != null){
+                    dq.add(curr.right);
+                }
+            }
+            res.add(ele);
+            level++;
+            System.out.println();
+            size = dq.size();
+        }
+    }
+}
+
+// null 2 null 1 null
+// null 1 null 2 null 
