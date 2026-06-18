@@ -40,29 +40,24 @@ root.right.right = new TreeNode(5);
 }
     public static void BFS(TreeNode root){
         Deque<TreeNode> dq = new LinkedList<>();
-        List<ArrayList<Integer>> res = new ArrayList<>();
-        ArrayList<Integer> ele = new ArrayList<>();
-        dq.add(root);
-        int size = dq.size();
-        System.out.println("size : "+size);
+        List<Integer> res = new ArrayList<>();
+        int right = -1;
+        dq.addLast(root);
         int level = 0;
+        int size = dq.size();
         while(!dq.isEmpty()){
             System.out.println("level : "+level);
             for(int i=0;i<size;i++){
-                TreeNode curr = dq.removeFirst();
-                ele.add(curr.val);
-                System.out.println(curr.val);
-                if(curr.left != null){
-                    dq.add(curr.left);
-                }
-                if(curr.right != null){
-                    dq.add(curr.right);
-                }
-            }
-            res.add(ele);
-            level++;
-            System.out.println();
-            size = dq.size();
+            TreeNode curr = dq.removeFirst();
+            right = curr.val;
+            System.out.println(curr.val);
+            if(curr.left != null) dq.addLast(curr.left);
+            if(curr.right != null) dq.addLast(curr.right);
+        }
+        res.add(right);
+        System.out.println();
+        size = dq.size();
+        level++;
         }
     }
 }
