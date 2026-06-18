@@ -20,45 +20,97 @@ public class Main {
 }
 
 public static void main(String[] args) {
-
-TreeNode root = new TreeNode(1);
-
-root.left = new TreeNode(2);
-root.right = new TreeNode(3);
-
-root.left.left = new TreeNode(4);
-
-root.right.right = new TreeNode(5);
-    // TreeNode root = new TreeNode(1);
-
-    // root.left = new TreeNode(2);
-    // root.right = new TreeNode(3);
-
-    // root.right.left = new TreeNode(4);
-    // root.right.right = new TreeNode(5);
-    BFS(root);
+    char[][] grid = {
+        {'1','1','1','1','0'},
+  {'1','1','0','1','0'},
+  {'1','1','0','0','0'},
+  {'0','0','0','0','0'}
+    };
+//     char[][] grid = {
+//     {'1','1','0','0','0'},
+//     {'1','1','0','0','0'},
+//     {'0','0','1','0','0'},
+//     {'0','0','0','1','1'}
+// };
+System.out.println("grid : "+grid.length);
+System.out.println("grid[0] : "+grid[0].length);
+    System.out.println("no fo island : "+numIsLand(grid));
 }
-    public static void BFS(TreeNode root){
-        Deque<TreeNode> dq = new LinkedList<>();
-        List<Integer> res = new ArrayList<>();
-        int right = -1;
-        dq.addLast(root);
-        int level = 0;
-        int size = dq.size();
-        while(!dq.isEmpty()){
-            System.out.println("level : "+level);
-            for(int i=0;i<size;i++){
-            TreeNode curr = dq.removeFirst();
-            right = curr.val;
-            System.out.println(curr.val);
-            if(curr.left != null) dq.addLast(curr.left);
-            if(curr.right != null) dq.addLast(curr.right);
+public static int numIsLand(char[][] grid){
+    boolean[][] visited = new boolean[grid.length][grid[0].length];
+    int c =0;
+    System.out.println("before : ");
+    printGrid(grid);
+    printVis(visited);
+    int[] ones = fintOne(grid, visited);
+    while(ones[0] != -1){
+    BFS(grid, visited,ones);
+    ones = fintOne(grid, visited);
+    c++;
+    }
+    System.out.println("After : ");
+    printGrid(grid);
+    printVis(visited);
+    return c;
+
+}
+public static void BFS(char[][] grid,boolean[][] visited,int[] ones){
+    Deque<List<Integer>> dq = new LinkedList<>();
+    System.out.println("ones : "+ones[0]+" "+ones[1]);
+    dq.addLast(new ArrayList<>(Arrays.asList(ones[0],ones[1])));
+    visited[ones[0]][ones[1]] = true;
+    while(!dq.isEmpty()){
+        List<Integer> curr = dq.removeFirst();
+        int i = curr.get(0);
+        int j = curr.get(1);
+        visited[i][j] = true;
+        int[][] dirs = {
+            {i-1,j},
+            {i+1,j},
+            {i,j-1},
+            {i,j+1}
+        };
+        for(int[] dir:dirs){
+            int a = dir[0];
+            int b = dir[1];
+            System.out.println("a : "+a+" b : "+b);
+            if(a >= 0  && a<grid.length && b >=0 && b<grid[0].length && visited[a][b] == false && grid[a][b] == '1'){
+                visited[a][b] =true;
+                dq.add(new ArrayList<>(Arrays.asList(a,b)));
+            }
         }
-        res.add(right);
         System.out.println();
-        size = dq.size();
-        level++;
+    }
+}
+public static int[] fintOne(char[][] grid,boolean[][] visited){
+    System.out.println("find one : ");
+    for(int i=0;i<grid.length;i++){
+        for(int j=0;j<grid[0].length;j++){
+            if(grid[i][j] == '1' && visited[i][j] == false){
+                System.out.println("fond at : "+i+" "+j);
+                return new int[] {i,j};
+            }
         }
+    }
+    System.out.println("not found");
+    return new int[] {-1,-1};
+}
+public static void printGrid(char[][] grid){
+    for(int i=0;i<grid.length;i++){
+        for(int j=0;j<grid[0].length;j++){
+            System.out.print(grid[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    public static void printVis(boolean[][] grid){
+    for(int i=0;i<grid.length;i++){
+        for(int j=0;j<grid[0].length;j++){
+            System.out.print(grid[i][j]+" ");
+            }
+            System.out.println();
+        }
+        
     }
 }
 
