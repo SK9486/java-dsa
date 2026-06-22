@@ -1,29 +1,39 @@
-import java.util.Collection;
-import java.util.HashMap;
-
 class Hello{
     public static void main(String[] args) {
-        boolean ans = true;
-        int r = 4;
-        int c = 3;
-        int[][] mats = {{4,4,4},{5,5,7},{7,7,5},{4,7,7}};
-        HashMap<Integer,Integer> map = new HashMap<>();
-        for(int[] mat : mats){
-            for(int a : mat){
-                map.put(a,map.getOrDefault(a, 0)+1);
-            }
+        int[] arr = {1,2,3,4,5,6,7};
+        int k =3;
+        if(k>=arr.length){
+            k = arr.length % k;
         }
-        Collection<Integer> keys = map.values();
-        for(int key : keys){
-            if(key>c){
-                ans = false;
-                break;
-            }
-        }
-        if(ans){
-            System.out.println("YES");
-        }else{
-            System.out.println("NO");
-        }
+        printArr(arr);
+        reverseArr(arr, 0, arr.length-1);
+        // entire arr reverse
+        System.out.println("entire elements rev :");
+        printArr(arr);
+        // k elements revere
+        System.out.println("k ele reverse");
+        reverseArr(arr, 0, k-1);
+        printArr(arr);
+        // remaining n- k elements
+        System.out.println("k-n elements reverse");
+        reverseArr(arr, k, arr.length-1);
+        printArr(arr);
+    }
+    public static void reverseArr(int[] arr,int i,int j ){
+        while(i<=j){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
 
-    }}
+        }
+    }
+    public static void printArr(int[] arr){
+        for(int a : arr){
+            System.out.print(a+" ");
+        }
+        System.out.println();
+    }
+}
+// rotating k times an array
