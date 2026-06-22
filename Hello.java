@@ -1,19 +1,29 @@
+import java.util.Collection;
+import java.util.HashMap;
+
 class Hello{
     public static void main(String[] args) {
-        int r = 3;
-        int c = 4;
-        int[][] mat =  {
-            {10,12,13,15},
-            {23,88,12,42},
-            {99,89,79,11}
-        };
-        for(int[] row:mat){
-            int last = row[row.length-1];
-            int unit = last % 10;
-            for(int a : row){
-                System.out.print((a+unit)+" ");
+        boolean ans = true;
+        int r = 4;
+        int c = 3;
+        int[][] mats = {{4,4,4},{5,5,7},{7,7,5},{4,7,7}};
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int[] mat : mats){
+            for(int a : mat){
+                map.put(a,map.getOrDefault(a, 0)+1);
             }
-            System.out.println();
         }
-    }
-}
+        Collection<Integer> keys = map.values();
+        for(int key : keys){
+            if(key>c){
+                ans = false;
+                break;
+            }
+        }
+        if(ans){
+            System.out.println("YES");
+        }else{
+            System.out.println("NO");
+        }
+
+    }}
