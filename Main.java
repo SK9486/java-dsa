@@ -1,11 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
 
 public class Main {
     static class TreeNode {
@@ -21,114 +14,48 @@ public class Main {
 }
 
 public static void main(String[] args) {
-    // int[][] grid = {
-    //     {0,0,0},
-    //     {1,1,0},
-    //     {1,1,0}
-    // };
-    // int[][] grid = {
-    // {0,1},{1,0}};
-    int[][] grid = {
-    {0, 0, 1, 0},
-    {1, 0, 1, 0},
-    {1, 0, 0, 0},
-    {0, 0, 1, 0}
-};
-    boolean[][] visited = new boolean[grid.length][grid[0].length];
-    System.out.println("BFS : "+BFS(grid, visited));
+        TreeNode p1 = new TreeNode(1);
+        p1.left = new TreeNode(2);
+        p1.right = new TreeNode(3);
 
+        TreeNode q1 = new TreeNode(1);
+        q1.left = new TreeNode(2);
+        q1.right = new TreeNode(3);
 
+        TreeNode p2 = new TreeNode(1);
+        p2.left = new TreeNode(2);
+
+        TreeNode q2 = new TreeNode(1);
+        q2.right = new TreeNode(2);
+
+        // Example 3: p = [1,2,1], q = [1,1,2] -> false
+        TreeNode p3 = new TreeNode(1);
+        p3.left = new TreeNode(2);
+        p3.right = new TreeNode(1);
+
+        TreeNode q3 = new TreeNode(1);
+        q3.left = new TreeNode(1);
+        q3.right = new TreeNode(2);
+        // System.out.println("checkTree : "+);
+        System.out.println(checkSameTree(p1,q1));
+        System.out.println(checkSameTree(p2,q2));
+        System.out.println(checkSameTree(p3,q3));
+        // System.out.println();
+        // checkSameTree(p3, q3);
 }
-public static int BFS( int[][] grid,boolean[][] visited){
-    int[] c ={0};
-    Deque<ArrayList<Integer>> dq = new LinkedList<>();
-    dq.add(new ArrayList<>(Arrays.asList(0,0)));
-    visited[0][0] = true;
-    System.out.println("c++");
-    c[0]++;
-    int size = dq.size();
-    while (!dq.isEmpty()) {
-        for(int z=0;z<size;z++){
-            ArrayList<Integer> pop = dq.removeFirst();
-            int i = pop.get(0);
-            int j = pop.get(1);
-if (Checker(i-1, j-1, grid, visited, dq,c)){
-                    return c[0];
-                }
-if (Checker(i-1, j,   grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i-1, j+1, grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i,   j-1, grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i,   j+1, grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i+1, j-1, grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i+1, j,   grid, visited, dq,c)){
-    return c[0];
-}
-if (Checker(i+1, j+1, grid, visited, dq,c)){
-    return c[0];
-}
+    public static boolean checkSameTree(TreeNode p,TreeNode q){
+        boolean left = false;
+        boolean right = false;
+        if(p == null && q ==  null){
+            return true;
         }
-        System.out.println("************");
-        size = dq.size();
-        c[0]++;
-    }
-
-    return -1;
-}
-public static boolean Checker(int a,int b,int[][] grid , boolean[][] visited,Deque<ArrayList<Integer>> dq,int[] c){
-    if(a>=0 && b>=0 && a < grid.length && b<grid[0].length){
-                    System.out.print("valid : ");
-                    if(grid[a][b] == 0 && visited[a][b] == false){
-                        System.out.print( " best ");
-                        dq.add(new ArrayList<>(Arrays.asList(a,b)));
-                        visited[a][b] = true;
-                        if(a == grid.length-1 && b == grid[0].length -1){
-                            c[0]++;
-                            System.out.println("FOUNDED ....");
-                            return true;
-                        }
-                    }
-                }
-                return false;
-}
-}
-
-// null 2 null 1 null
-// null 1 null 2 null 
-/*
-public static int BFS( List<List<Integer>>  grid,boolean[][] visited){
-    Deque<Integer> dq = new LinkedList<>();
-    HashSet<Integer> set = new HashSet<>();
-    dq.add(0);
-    set.add(0);
-    int level = 0;
-    int size = dq.size();
-    while(!dq.isEmpty()){
-        for(int i=0;i<size;i++){
-            int poped = dq.removeFirst();
-            System.out.println(level+" : "+poped);
-            System.out.println();
-            for(int a : grid.get(poped)){
-                if(!set.contains(a)){
-                    set.add(a);
-                    dq.add(a);
-                }
-            }
+        if((p == null && q != null) || (q == null && p != null) || (p.val != q.val)){
+            return false;
+        };
+        if(p.val == q.val){
+            left = checkSameTree(p.left, q.left);
+            right = checkSameTree(p.right, q.right);
         }
-        size = dq.size();
-        level++;
+        return left && right;
     }
-    return -1;
 }
- */
-
-
