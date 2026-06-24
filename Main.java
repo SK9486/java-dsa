@@ -1,61 +1,49 @@
-
+import java.util.Arrays;
 
 public class Main {
-    static class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+    public static void main(String[] args) {
+        int[] arr = {1,1,2,1,2,2,1};
+        Arrays.sort(arr);
+        printArr(arr);
+        int mid = arr.length / 2;
+        if(arr.length % 2 != 0){
+            mid++;
+        }
+        System.out.println("mid : "+mid);
+        reverseArr(arr, 0, mid-1);
+        reverseArr(arr, mid, arr.length-1);
+        printArr(arr);
+        rearranging(arr, mid);
+        printArr(arr);
 
-    TreeNode(int n) {
-        this.val = n;
-        left = null;
-        right = null;
     }
-}
-
-public static void main(String[] args) {
-        TreeNode p1 = new TreeNode(1);
-        p1.left = new TreeNode(2);
-        p1.right = new TreeNode(3);
-
-        TreeNode q1 = new TreeNode(1);
-        q1.left = new TreeNode(2);
-        q1.right = new TreeNode(3);
-
-        TreeNode p2 = new TreeNode(1);
-        p2.left = new TreeNode(2);
-
-        TreeNode q2 = new TreeNode(1);
-        q2.right = new TreeNode(2);
-
-        // Example 3: p = [1,2,1], q = [1,1,2] -> false
-        TreeNode p3 = new TreeNode(1);
-        p3.left = new TreeNode(2);
-        p3.right = new TreeNode(1);
-
-        TreeNode q3 = new TreeNode(1);
-        q3.left = new TreeNode(1);
-        q3.right = new TreeNode(2);
-        // System.out.println("checkTree : "+);
-        System.out.println(checkSameTree(p1,q1));
-        System.out.println(checkSameTree(p2,q2));
-        System.out.println(checkSameTree(p3,q3));
-        // System.out.println();
-        // checkSameTree(p3, q3);
-}
-    public static boolean checkSameTree(TreeNode p,TreeNode q){
-        boolean left = false;
-        boolean right = false;
-        if(p == null && q ==  null){
-            return true;
+    public static void printArr(int[] arr){
+        for(int a:arr){
+            System.out.print(a+" ");
         }
-        if((p == null && q != null) || (q == null && p != null) || (p.val != q.val)){
-            return false;
-        };
-        if(p.val == q.val){
-            left = checkSameTree(p.left, q.left);
-            right = checkSameTree(p.right, q.right);
+        System.out.println();
+    }
+    public static void reverseArr(int[] arr,int i,int j){
+        while(i<=j){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
         }
-        return left && right;
+    }
+    public static void rearranging(int[] arr,int mid){
+        int p2= 0;
+        for(int p1 =0;p1<arr.length;p1++){
+            System.out.println("p1 : "+p1+" p2 : "+p2);
+            int temp = arr[p1];
+            arr[p1] = arr[p2];
+            arr[p2] = temp;
+            if(p1 < mid){
+                p2 = 2 * p1;
+            }else{
+                p2 = 2 * (p1-mid) +1;
+            }
+        }
     }
 }

@@ -1,39 +1,22 @@
 class Hello{
     public static void main(String[] args) {
-        int[] arr = {1,2,3,4,5,6,7};
-        int k =3;
-        if(k>=arr.length){
-            k = arr.length % k;
+        String str = "aaaabbcccbb";
+        int n = 3;
+        int p1 = 0;
+        int p2 = 0;
+        while(p1<str.length()){
+            char ch1 = str.charAt(p1);
+            // System.out.println("p1 : "+p1);
+            while(p2<str.length() && str.charAt(p2) == ch1){
+                p2++;
+            }
+            // System.out.println("p2 : "+p2);
+            int len = p2 - p1;
+            // System.out.println("len : "+len);
+            if(len >= n){
+                System.out.print(ch1);
+            }
+            p1 = p2;
         }
-        printArr(arr);
-        reverseArr(arr, 0, arr.length-1);
-        // entire arr reverse
-        System.out.println("entire elements rev :");
-        printArr(arr);
-        // k elements revere
-        System.out.println("k ele reverse");
-        reverseArr(arr, 0, k-1);
-        printArr(arr);
-        // remaining n- k elements
-        System.out.println("k-n elements reverse");
-        reverseArr(arr, k, arr.length-1);
-        printArr(arr);
-    }
-    public static void reverseArr(int[] arr,int i,int j ){
-        while(i<=j){
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-            i++;
-            j--;
-
-        }
-    }
-    public static void printArr(int[] arr){
-        for(int a : arr){
-            System.out.print(a+" ");
-        }
-        System.out.println();
     }
 }
-// rotating k times an array
