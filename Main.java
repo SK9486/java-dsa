@@ -1,49 +1,59 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        int[] arr = {1,1,2,1,2,2,1};
-        Arrays.sort(arr);
-        printArr(arr);
-        int mid = arr.length / 2;
-        if(arr.length % 2 != 0){
-            mid++;
+    public static void main(String[] args){
+        String str1 = "neuro";
+        String str2 = "lemon";
+        // String str1 = "orange";
+        // String str2 = "energy";
+        String res = strMerger(str1, str2);
+        if(res.length() == 0){
+            System.out.println("-1");
+            return;
         }
+        int mid = res.length() / 2;
+        System.out.println("res  : "+res);
         System.out.println("mid : "+mid);
-        reverseArr(arr, 0, mid-1);
-        reverseArr(arr, mid, arr.length-1);
-        printArr(arr);
-        rearranging(arr, mid);
-        printArr(arr);
+        for(int i=0;i<=mid;i++){
+            int lft = mid - i;
+            int rgh = mid + i;
+            for(int j =0;j<res.length();j++){
+                if(j <= rgh){
+                    if(j == lft || j == rgh){
+                        System.out.print(res.charAt(j));
+                    }else{
+                        System.out.print("-");
+                    }
+                }
+                // else{
+                //     System.out.print(" ");
+                // }
+            }
+            System.out.println();
+        }
+    }
 
-    }
-    public static void printArr(int[] arr){
-        for(int a:arr){
-            System.out.print(a+" ");
+    public static String strMerger(String str1,String str2){
+        if(str1.length() != str2.length()){
+            return "";
         }
-        System.out.println();
-    }
-    public static void reverseArr(int[] arr,int i,int j){
-        while(i<=j){
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-            i++;
-            j--;
-        }
-    }
-    public static void rearranging(int[] arr,int mid){
-        int p2= 0;
-        for(int p1 =0;p1<arr.length;p1++){
-            System.out.println("p1 : "+p1+" p2 : "+p2);
-            int temp = arr[p1];
-            arr[p1] = arr[p2];
-            arr[p2] = temp;
-            if(p1 < mid){
-                p2 = 2 * p1;
-            }else{
-                p2 = 2 * (p1-mid) +1;
+        String res = "";
+        if((str1.charAt(0) == str2.charAt(str2.length() -1)) || str1.charAt(str1.length() -1 ) == str2.charAt(0)){
+            if(str1.charAt(0) == str2.charAt(str2.length() -1)){
+            String temp = str1;
+            str1 = str2;
+            str2 = temp;
+            System.out.println("str1 : "+str1);
+            System.out.println("str2 : "+str2);
+            }
+            for(int i=0;i<str1.length();i++){
+                res+=str1.charAt(i);
+            }
+            for(int j =1;j<str2.length();j++){
+                res += str2.charAt(j);
             }
         }
+    return res;
     }
 }
