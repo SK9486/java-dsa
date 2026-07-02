@@ -5,19 +5,32 @@ import java.util.List;
 
     class Hello {
         public static void main(String[] args) {
-            int[] arr = {1,2,3,1,1,2,1};
-            int slot = 0;
-            int count = 0;
-            for(int a : arr){
-                if(slot == 0 || count < 0){
-                    slot = a;
-                    count++;
-                }else if(slot == a){
-                    count++;
-                }else{
-                    count--;
-                }
-                System.out.println("a : "+a+" slot : "+slot+" c : "+count);
+            int[] arr = {100,1,1,100};
+            if(arr.length == 0){
+                // return arr;
             }
+            else if(arr.length == 1){
+                // return arr[0]
+            }
+            else if(arr.length == 2){
+                // return Math.max(arr[0], arr[1]);
+            }else{
+                int[] dp = new int[arr.length];
+                for(int i=0;i<arr.length;i++){
+                    if(i == 0){
+                        dp[i] = arr[i];
+                        System.out.println("dp of "+i+" : "+arr[i]);
+                    }else if(i == 1){
+                        dp[i] = Math.max(dp[i-1],arr[i]);
+                         System.out.println("dp of "+i+" : "+dp[i]);
+                    }else{
+                        dp[i] = Math.max((arr[i]+dp[i-2]), dp[i-1]);
+                        System.out.println("dp of "+i+" : "+dp[i]);
+                    }
+                }
+                // return dp[arr.length -1];
+
+            }
+
     }
     }

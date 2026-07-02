@@ -11,18 +11,26 @@ public class Main {
         //     {6,7,8,9,0},
         //     {9,2,3,4,5}
         // };
-        int n = 4;
+        // int n = 4;
+        // int[][] arr = {
+        //    {12,23,34,45},
+        //    {23,34,12,56},
+        //    {34,45,56,67},
+        //    {12,23,34,45}
+        // };
+        int n  =3;
         int[][] arr = {
-           {12,23,34,45},
-           {23,34,12,56},
-           {34,45,56,67},
-           {12,23,34,45}
+            {1,2,3},
+            {4,5,6},
+            {7,8,9}
         };
-        int[] top_right = new int[(n-2) * (n-2)];
-        int[] bott_left = new int[(n-2) * (n-2)];
         if(n % 2 == 0){
+            int[] top_right = new int[(n/2) * (n/2)];
+            int[] bott_left = new int[(n/2) * (n/2)];
             handleEvenMatx(arr,n,top_right,bott_left);
         }else{
+            int[] top_right = new int[((n+1)/2) * ((n+1)/2)];
+            int[] bott_left = new int[((n+1)/2) * ((n+1)/2)];
             handleOddMatx(arr, n, top_right, bott_left);
         }
     }
