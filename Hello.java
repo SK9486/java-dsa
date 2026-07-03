@@ -5,32 +5,23 @@ import java.util.List;
 
     class Hello {
         public static void main(String[] args) {
-            int[] arr = {100,1,1,100};
-            if(arr.length == 0){
-                // return arr;
+            int[] arr = {5,4,-1,7,8};
+            int max = Integer.MIN_VALUE;
+            int[] dp = new int[arr.length];
+            dp[0] = arr[0];
+            for(int i=1;i<arr.length;i++){
+                dp[i] = Math.max(dp[i-1]+arr[i], arr[i]);
+                printDP(dp);
+                max = Math.max(dp[i], max);
             }
-            else if(arr.length == 1){
-                // return arr[0]
-            }
-            else if(arr.length == 2){
-                // return Math.max(arr[0], arr[1]);
-            }else{
-                int[] dp = new int[arr.length];
-                for(int i=0;i<arr.length;i++){
-                    if(i == 0){
-                        dp[i] = arr[i];
-                        System.out.println("dp of "+i+" : "+arr[i]);
-                    }else if(i == 1){
-                        dp[i] = Math.max(dp[i-1],arr[i]);
-                         System.out.println("dp of "+i+" : "+dp[i]);
-                    }else{
-                        dp[i] = Math.max((arr[i]+dp[i-2]), dp[i-1]);
-                        System.out.println("dp of "+i+" : "+dp[i]);
-                    }
-                }
-                // return dp[arr.length -1];
+            System.out.println("max : "+max);
+        }
 
+        public static void printDP(int[] arr){
+            System.out.print("dp : ");
+            for(int a : arr){
+                System.out.print(a+" ");
             }
-
-    }
+            System.out.println();
+        }
     }
