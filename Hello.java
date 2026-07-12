@@ -1,83 +1,32 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
-    class Hello {
-       public static void main(String[] args) {
-    
-        int tar = 9;
-        int[] coins = {2,5,10};
-        int[][] dp = new int[coins.length][tar+1];
-        
-        for(int i =0;i<coins.length;i++){
-            for(int j = 0;j<tar+1;j++){
-                // System.out.print("("+i+" , "+j+") ");
-                if(j == 0){
-                    dp[i][j] = 0;
-                }else{
-                    if(i==0 &&coins[i] == 1){
-                        dp[i][j] = j;
-                    // System.out.println("dp[i,j] : "+dp[i][j]);
-                    }
-                    else if(i == 0 && coins[i] != 1){
-                        if(j % coins[i] == 0){
-                            dp[i][j] = j/coins[i];
-                        }else{
-                            dp[i][j] = Integer.MAX_VALUE;
-                        }
-                    }else{
-                        if(coins[i] > j){
-                            dp[i][j] = dp[i-1][j];
-                            // System.out.println(j+" <  "+coins[i]);
-                        }else{
-                            int excluded =dp[i-1][j];
-                            int included;
-                            if(dp[i][Math.abs(coins[i] - j)] != Integer.MAX_VALUE){
-                                included = 1 + dp[i][coins[i] - j];
-                            }else{
-                                included = Integer.MAX_VALUE;
-                            }
-                            dp[i][j] = Math.min(included, excluded);
-                        }
-                    }
-                }
-            }
-            // System.out.println();
-        }
-        printDP(dp);
-        backtracking(dp,coins);
-        // int last = dp[coins.length -1][tar];
-        // if(last > coins.length){
-            // return -1;
+class Hello{
+    public static void main(String[] args) {
+        // int[] nums = {2,4,6,8,5};
+        // int tar = 10;
+        int[] nums = {25,20,25,30,15,45,5};
+        int tar = 50;
+        Arrays.sort(nums);
+        int p1  = 0;
+        int p2 = nums.length -1;
+        // for(int a : nums){
+        //     System.out.print(a+" ");
         // }
-        // return last;
-        // dp[coins.length -1][tar] > coins.length ? return -1 : return dp[coins.length -1][tar];
-        // System.out.println("last : "+last);
-       }
-    public static void printDP(int[][] dp){
-        for(int[] a : dp){
-            for(int b : a){
-                System.out.print(b+" ");
+        System.out.println();
+        while(p1 < p2 && p1<nums.length && p2<nums.length){
+            int sum = nums[p1]+nums[p2];
+            // System.out.println("p1 : "+p1);
+            // System.out.println("p2 : "+p2);
+            // System.out.println("sum : "+sum);
+            if(sum == tar){
+                System.out.println(nums[p1]+" "+nums[p2]);
+                p1++;
+                p2--;
+            }else if(sum > tar){
+                p2--;
+            }else{
+                p1++;
             }
-            System.out.println();
         }
     }
-    // backtracking you must do next
-    public static void backtracking(int[][] dp,int[] coins){
-        int i = dp.length -1;
-        int j = dp[0].length -1;
-        int last = dp[i][j];
-        System.out.println(last);
-        System.out.println("i : "+i+" j : "+j);
-        while(dp[i-1][j] == dp[i][j]){
-            System.out.println(dp[i][j]);
-            System.out.println("i : "+i+" j : "+j);
-            i = i-1;
-        }
-        int new_i = j-coins[i];
-        i =  new_i;  
-        System.out.println("i : "+i+" j : "+j);
-        System.out.println(dp[i][j]);
-    }
-    }
+}
