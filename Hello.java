@@ -2,24 +2,17 @@ import java.util.Arrays;
 
 class Hello{
     public static void main(String[] args) {
-        int[] arr = {0,0,1,1,1,2,2,3,3,4};
-        int p1 = 0;
-        int p2 = 0;
-        while(p1<arr.length && p2<arr.length){
-            if(arr[p1] != arr[p2]){
-                System.out.println("mimatch occures");
-                p1++;
-                arr[p1] = arr[p2];
-            }
-            System.out.println("p1 : "+arr[p1]);
-            System.out.println("p2 : "+arr[p2]);
-            p2++;
-        }
-        System.out.println("p1 : "+p1);
-        System.out.println("p2 : "+p2);
+        int[] arr = {3,0,1};
+        int n =  arr.length + 1;
+        System.out.println(" n  : "+n);
+        int exp_sum = (n * (n-1))/2;
+        int sum = 0;
         for(int a : arr){
-            System.out.print(a+" ");
+            sum+=a;
         }
-        System.out.println();
+        int missing_no = exp_sum - sum;
+        System.out.println("exp : "+exp_sum);
+        System.out.println("sum : "+sum);
+        System.out.println("missing no : "+missing_no);
     }
 }
