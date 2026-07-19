@@ -2,80 +2,55 @@ import java.util.Arrays;
 
 class Hello{
     public static void main(String[] args) {
-        String str = "-4--5";
-        int shift = 1;
-        boolean toShift = shift == 0 ? false : true;
-        int[] nums = new int[2];
-        char[] oprs = new char[3];
-        int i =0;
-        int j = 0;
-        String num = "";
-        for(char ch:str.trim().toCharArray()){
-            if(Character.isDigit(ch)){
-                num += ch;
-            }else if(ch == '+' || ch == '-' || ch == '/' || ch == '*'){
-                oprs[j++] = ch;
-                if(num != ""){
-                    System.out.println("num : "+num);
-                    nums[i++] = Integer.parseInt(num);
-                    num = "";
+        int[][] mat = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+        boolean[][] trace = new boolean[mat.length][mat[0].length];
+        for(boolean[] arr : trace){
+            for(boolean ar : arr){
+                System.out.print(ar+" ");
+            }
+            System.out.println();
+        }
+        for(int i=0;i<mat.length;i++){
+            for(int j=0;j<mat[i].length;j++){
+                if(mat[i][j] == 0){
+                    System.out.println("i : "+i+"j : "+j+" mat[i][j] : "+mat[i][j]);
+                    trace[i][j] = true;
+                    make_it_zero(i,j,trace);
                 }
             }
         }
-        if(num != ""){
-            nums[i++] = Integer.parseInt(num);
-            num ="";
+         for(boolean[] arr : trace){
+            for(boolean ar : arr){
+                System.out.print(ar+" ");
+            }
+            System.out.println();
         }
-        int a = nums[0];
-        int b = nums[1];
-        if(j == 1){
-            System.out.println("j ===1");
-            System.out.println(shiftAndResult(oprs[0], a,b, toShift));
-        }else if(j == 2){
-            System.out.println("j == 2");
-            if(str.charAt(0) == oprs[0]){
-                if(oprs[0] == '-'){
-                    a = -a;
-                }
-                System.out.println(shiftAndResult(oprs[1],a,b, toShift));
-            }else{
-                if(oprs[1] == '-'){
-                    b = -b;
-                }
-                System.out.println(shiftAndResult(oprs[0], a,b, toShift));
+        replace_with_zero(mat,trace);
+
+        for(int[] ar :mat){
+            for(int a : ar){
+                System.out.print(a+" ");
             }
-        }else{
-            System.out.println("j == 3");
-            if(oprs[0] == '-'){
-                a = -a;
-            }
-            if(oprs[2] == '-'){
-                b = -b;
-            }
-            System.out.println(shiftAndResult(oprs[1], a,b, toShift));
+            System.out.println();
         }
     }
-
-    public static int shiftAndResult(char opr,int a,int b,boolean toShift){
-        if(toShift){
-            if(opr == '+'){
-                opr = '-';
-            }else if(opr == '-'){
-                opr = '+';
-            }else if(opr == '*'){
-                opr = '/';
-            }else{
-                opr = '*';
+    public static void make_it_zero(int a,int b,boolean[][] mat){
+        for(int i=0;i<mat.length;i++){
+            for(int j=0;j<mat[i].length;j++){
+                if((a == i || b == j) && mat[i][j] != true){
+                    System.out.println("i : "+i+"j : "+j+" = "+"-1");
+                    mat[i][j] = true;
+                }
             }
         }
-        if(opr == '+'){
-            return a + b;
-        }else if(opr == '-'){
-            return a - b;
-        }else if(opr == '*'){
-            return a * b;
-        }else{
-            return a / b;
+    }
+    public static void replace_with_zero(int[][] mat,boolean[][] trace){
+        for(int i=0;i<mat.length;i++){
+            for(int j=0;j<mat[i].length;j++){
+                if(trace[i][j] == true && mat[i][j] != 0){
+                    mat[i][j] = 0;
+                }
+            }
         }
     }
 }
