@@ -1,28 +1,45 @@
 public class Main{
     public static void main(String[] args) {
-        int n = 6;
-        char ch1 = '@';
-        char ch2 = '%';
-        int left;
-        int rght;
-        int mid = (((n-1)*2)+1)/2;
-        System.out.println("mid : "+mid);
-        for(int i=0;i<n;i++){
-            for(int j=0;j<(((n-1)*2)+1);j++){
-                left = mid - i;
-                rght = mid + i;
-                if(j>=left && j<=rght){
-                    // System.out.print("* ");
-                    if(j % 2 != 0){
-                        System.out.print(ch1+" ");
-                    }else{
-                        System.out.print(ch2+" ");
-                    }
-                }else{
-                    System.out.print("+ ");
+        int[] arr = {1,3,2,4,5,6};
+        selectionSortMin(arr, 0, arr.length/2);
+        selectionSortMax(arr, arr.length/2, arr.length);
+        for(int a : arr){
+            System.out.print(a+" ");
+        }
+
+    }
+    public static void selectionSortMin(int[] arr,int st,int ed){
+        for(int i =st;i<ed;i++){
+            int temp_idx = i;
+            int min = arr[i];
+            int min_idx = i;
+            for(int j = i;j<ed;j++){
+                if(arr[j] < min){
+                    min = arr[j];
+                    min_idx = j;
                 }
             }
-            System.out.println();
+            swap(min_idx,temp_idx,arr);
         }
+    }
+    public static void selectionSortMax(int[] arr,int st,int ed){
+        for(int i =st;i<ed;i++){
+            int temp_idx = i;
+            int max = arr[i];
+            int max_idx = i;
+            for(int j = i;j<ed;j++){
+                if(arr[j] > max){
+                    max = arr[j];
+                    max_idx = j;
+                }
+            }
+            swap(max_idx,temp_idx,arr);
+        }
+    }
+
+    public static void swap(int p1,int p2,int[] arr){
+        int temp = arr[p1];
+        arr[p1] = arr[p2];
+        arr[p2] = temp;
     }
 }
