@@ -3,20 +3,36 @@ import java.util.Scanner;
 public class Main{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter n value : ");
         int n = sc.nextInt();
-        oddNoOptimized(n);
+        inputHandler(n,sc);
     }
-    public static void oddNo(int n){
-        for(int i=1;i<=n;i++){
-            if(i % 2 != 0){
-                System.out.println(i);
+    public static void inputHandler(int n,Scanner sc){
+        for(int i=0;i<n;i++){
+            int m = sc.nextInt();
+            int[] shelfs = new int[m];
+            for(int j=0;j<m;j++){
+                shelfs[j] = sc.nextInt();
+            }
+            System.out.println(checkShelf(shelfs) ? "Yes" : "No");
+        }
+    }
+    public static boolean checkShelf(int[] shelfs){
+        long bal = 0;
+        for(int i=0;i<shelfs.length;i++){
+            long req = i + 1;
+            long curr = shelfs[i];
+            // System.out.println("req : "+req+" curr : "+curr);
+            if(curr > req){
+                bal += curr - req;
+            }else if(req > curr){
+                long rem = req - curr;
+                if(bal >= rem){
+                    bal-=rem;
+                }else{
+                    return false;
+                }
             }
         }
-    }
-    public static void oddNoOptimized(int n){
-        for(int i=1;i<=n;i+=2){
-                System.out.println(i);
-        }
+        return true;
     }
 }
