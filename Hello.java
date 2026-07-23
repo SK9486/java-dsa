@@ -4,21 +4,24 @@ import java.util.Scanner;
 class Hello{
     public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
-    System.out.println("Enter value of N and M :");
+
+    // System.out.println("Enter value of N and M :");
+
     int N = sc.nextInt();
     int M = sc.nextInt();
     int[] walls = new int[N+2];
-    System.out.println(" N : "+N);
-    for(int wal : walls){
-      System.out.print(wal+" ");
-    }
+    // System.out.println(" N : "+N);
+    // for(int wal : walls){
+    //   System.out.print(wal+" ");
+    // }
 
     for(int i=0;i<M;i++){
         int st = sc.nextInt();
         int ed = sc.nextInt();
         // System.out.println(st+" "+ed);
-        walls[st] = walls[st] +1;
-        walls[ed+1] = walls[ed+1] - 1;
+        for(int k=st;k<ed;k++){
+            walls[k] = walls[k] +1;
+        }
     }
     for(int wal : walls){
       System.out.print(wal+" ");
@@ -33,11 +36,11 @@ class Hello{
             min = walls[i];
         }
     }
-    System.out.println();
-    for(int wal : walls){
-      System.out.print(wal+" ");
-    }
-    System.out.println("min : "+min);
+    // System.out.println();
+    // for(int wal : walls){
+    //   System.out.print(wal+" ");
+    // }
+    // System.out.println("min : "+min);
 
 
     }
