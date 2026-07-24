@@ -2,73 +2,27 @@ import java.util.*;
 
 class Hello{
     public static void main(String[] args) {
-        String num1 = "123450";
-        String num2 = "012345";
-        int[] prefixNum1 = prefix(num1);
-        // System.out.println("pref1 : "+prefixNum1);
-        // for(int a : prefixNum1){
-        //     System.out.print(a+" ");
-        // }
-        // System.out.println();
-        int[] prefixNum2 = prefix(num2);
-        // for(int b : prefixNum2){
-        //     System.out.print(b+" ");
-        // }
-        // System.out.println("pref2 : "+prefixNum2);
-        if(prefixNum1[prefixNum1.length -1] == prefixNum2[prefixNum2.length -1]){
-            FindCommonNums(prefixNum1, prefixNum2);
-        }else{
-            System.out.println("-1");
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i=0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+        inputHandler(m, sc, arr);
+    }
+    public static void inputHandler(int m,Scanner sc,int[] arr){
+        for(int i=0;i<m;i++){
+            int st = sc.nextInt();
+            int ed = sc.nextInt();
+            System.out.println(prefixSum(arr, st, ed));
         }
     }
-    public static int[] prefix(String num){
-        int sum = 0;
-        int[] arrs = new int[num.length()];
-        for(int i=0;i<num.length();i++){
-            int curr = num.charAt(i) - '0';
-            sum += curr;
-            if(sum >= 10){
-                sum = sum % 10;
-            }
-            arrs[i] = sum;
-            // System.out.println("sum : "+sum);
+    public static int prefixSum(int[] arr,int st,int ed){
+        int sum =0;
+        for(int i=st-1;i<ed;i++){
+            sum += arr[i];
         }
-        return arrs;
-    }
-
-    public static void FindCommonNums(int[] num1,int[] num2){
-        int[][] dp = new int[num2.length +1][num1.length +1];
-        for(int[] d: dp){
-            for(int a : d){
-                System.out.print(a+" ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        for(int i=0;i<dp.length;i++){
-            for(int j=0;j<dp[i].length;j++){
-                if(i == 0 || j == 0){
-                    dp[i][j] = 0;
-                }else{
-                    int n1 = num2[i-1];
-                    int n2 = num1[j-1];
-                    if(n1 == n2){
-                        dp[i][j] = dp[i-1][j-1] + 1;
-                    }else{
-                        dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
-                    }
-                }
-            }
-        }
-        for(int[] d: dp){
-            for(int a : d){
-                System.out.print(a+" ");
-            }
-            System.out.println();
-        }
-
+        return sum;
     }
 }
-
-// 123450
-// 012345
