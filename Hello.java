@@ -1,71 +1,31 @@
-
-package rhp;
-
-import java.util.*;
-
-public class RHP {
-
+class Hello{
     public static void main(String[] args) {
-        int N = 10;
-        int[][] pairs = {
-            {1,7},
-            {2,6},
-            {6,7},
-            {7,9},
-            {9,10},
-            {4,8},
-            {8,5}
-        };
-        int[] leadersFolowers = new int[N+1];
-//        making the leaders as they followers intially \
-        for(int i=0;i<leadersFolowers.length;i++){
-            leadersFolowers[i] = i;
-        }
-        
-        
-//        using the pairs in leaaderFlowers
-        for(int[] ar : pairs){
-            leadersFolowers[ar[0]] = ar[1];
-        }
-        
-        for(int i=1;i<leadersFolowers.length;i++){
-            int trueLeader = find(i,leadersFolowers);
-            update(i, leadersFolowers, trueLeader);
-        }
-        printArrs(leadersFolowers);
-        Set<Integer> set = new HashSet<>();
-        for(int i=1;i<leadersFolowers.length;i++){
-            set.add(leadersFolowers[i]);
-        }
-        System.out.println("set : ");
-        for(int a : set){
-            System.out.print(a+" ");
-        }
-        System.out.println();
-       
-        
-    }
-    public static void printArrs(int[] leaders){
-        for(int i=0;i<leaders.length;i++){
-            System.out.println("key : "+i+" value : "+leaders[i]);
+        // String st = "omega";
+        // int mid = st.length()/2;
+        String st = "killer";
+        int mid = st.length()/2;
+        System.out.println("mid : "+mid);
+        int p2 = -1;
+        int p1 = st.length();
+        System.out.println("p1 : "+p1);
+        System.out.println("p2 : "+p2);
+        for(int i=0;i<st.length();i++){
+            p2++;
+            p1--;
+            if(i == mid){
+                System.out.println(st);
+                continue;
+            }
+            for(int j=0;j<st.length();j++){
+                if( j == mid){
+                        System.out.print(st.charAt(p2)+" ");
+                }else if(i == j || i+j == st.length() -1){
+                        System.out.print(st.charAt(p1)+" ");
+                }else{
+                        System.out.print("* ");
+                }
+            }
+            System.out.println();
         }
     }
-    
-    public static int find(int key,int[] leadersFolowers){
-        if(leadersFolowers[key] == key){
-            System.out.println("final key : "+key);
-            return key;
-        }
-        return find(leadersFolowers[key], leadersFolowers);
-    }
-    
-    public static void update(int key,int[] leadersFolowers,int ultimateLeader){
-        if(leadersFolowers[key] == ultimateLeader){
-            return;
-        }
-        int value = leadersFolowers[key];
-        leadersFolowers[key] = ultimateLeader;
-        update(value, leadersFolowers, ultimateLeader);
-    }
-    
 }
