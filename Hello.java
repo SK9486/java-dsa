@@ -1,9 +1,9 @@
 class Hello{
     public static void main(String[] args) {
-        // String st = "omega";
-        // int mid = st.length()/2;
-        String st = "killer";
+        String st = "omega";
         int mid = st.length()/2;
+        // String st = "killer";
+        // int mid = st.length()/2;
         System.out.println("mid : "+mid);
         int p2 = -1;
         int p1 = st.length();
@@ -12,19 +12,19 @@ class Hello{
         for(int i=0;i<st.length();i++){
             p2++;
             p1--;
-            if(i == mid){
-                System.out.println(st);
-                continue;
-            }
             for(int j=0;j<st.length();j++){
-                if( j == mid){
-                        System.out.print(st.charAt(p2)+" ");
-                }else if(i == j || i+j == st.length() -1){
-                        System.out.print(st.charAt(p1)+" ");
+                if(i == mid){
+                    System.out.print(st.charAt(j)+" ");
                 }else{
-                        System.out.print("* ");
+                    if( j == mid){
+                            System.out.print(st.charAt(p2)+" ");
+                    }else if(i == j || i+j == st.length() -1){
+                            System.out.print(st.charAt(p1)+" ");
+                    }else{
+                            System.out.print("* ");
+                    }
                 }
-            }
+        }
             System.out.println();
         }
     }
