@@ -2,88 +2,83 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        int[][] grid = {
-            {2,1,1},
-            {0,1,1},
-            {1,0,1}
-        };
-        int c_max = Integer.MIN_VALUE;
-        boolean[][] tracker = new boolean[grid.length][grid[0].length];
-        ArrayList<ArrayList<Integer>> rootedPositons = findRottenOrange(grid, tracker);
-        System.out.println("counter : "+bfs(grid, tracker,rootedPositons,0));
+        int n_no_nodes =4 ;
+        int m_no_edge = 2;
+        int start_node = 1;
 
+        ArrayList<Integer> arr1 = new ArrayList<>(Arrays.asList(1,2));
+        ArrayList<Integer> arr2 = new ArrayList<>(Arrays.asList(1,3));
+        ArrayList<ArrayList<Integer>> nodes = new ArrayList<>(Arrays.asList(arr1,arr2));
+        HashMap<Integer,ArrayList<Integer>> map = new HashMap<>();
 
-        for(int[] gr : grid){
-            for(int g : gr ){
-                System.out.print(g+" ");
-            }
-            System.out.println();
+        // Intializing the map with nodes
+        for(int i=1;i<=n_no_nodes;i++){
+            map.put(i,new ArrayList<>());
         }
 
+        // Bulding the map with edges
+
+        for(ArrayList<Integer> node : nodes){
+            ArrayList<Integer> val = map.get(node.get(0));
+            val.add(node.get(1));
+            map.put(node.get(0),val);
+
+        }
+
+        printMap(map);
+        ArrayList<ArrayList<Integer>> res = bfs(map, start_node);
+        HashMap<Integer,Integer> ansMap = new HashMap<>();
+        for(int i=1;i<=n_no_nodes;i++){
+            ansMap.put(i,0);
+        }
+        ans_weights(ansMap,res,6);
+        for(Map.Entry<Integer,Integer> enty : ansMap.entrySet()){
+            System.out.println(enty.getKey()+" "+enty.getValue());
+        }
+
+
+        // 4 2
+        // 1 2
+        // 1 3
+        // 1
     }
-    public static int bfs(int[][] grid, boolean[][] tracker,ArrayList<ArrayList<Integer>> positions,int c) {
-        System.out.println("BFS");
-        Deque<ArrayList<Integer>> dq = new LinkedList<>();
-        for(ArrayList<Integer> arr : positions ){
-            dq.addLast(arr);
+
+    public static void printMap(HashMap<Integer,ArrayList<Integer>> map){
+        for(Map.Entry<Integer,ArrayList<Integer>> enty : map.entrySet()){
+            System.out.println(enty.getKey()+" "+enty.getValue());
         }
+    }
+    public static ArrayList<ArrayList<Integer>>  bfs(HashMap<Integer,ArrayList<Integer>> map ,int start_node){
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> arr;
+        Deque<Integer> dq = new LinkedList<>();
+        dq.addLast(start_node);
         int size = dq.size();
-        System.out.println("size : "+size);
         while(!dq.isEmpty()){
-            // System.out.println("l "+l+" r : "+r);
-            for(int k=0;k<size;k++){
-                ArrayList<Integer> pos = dq.removeFirst();
-                int l=pos.get(0);
-                int r=pos.get(1);
-               int[][] dirs = {
-                    { l - 1, r },
-                    { l + 1, r },
-                    { l, r - 1 },
-                    { l, r + 1 }
-            };
-            for(int[] dir : dirs){
-                int a = dir[0];
-                int b = dir[1];
-                if(a>=0 && a <grid.length && b >=0 && b <grid[0].length && grid[a][b] == 1 && tracker[a][b] == false){
-                    System.out.println("["+a+" "+b+"]");
-                    tracker[a][b] = true;
-                    grid[a][b] = 2;
-                    dq.add(new ArrayList<>(Arrays.asList(a,b)));
-                    // bfs(grid, tracker, c+counter, a,b);
+            arr = new ArrayList<>();
+            for(int i=0;i<size;i++){
+                int poped = dq.removeFirst();
+                arr.add(poped);
+                for(int a : map.get(poped)){
+                    dq.add(a);
                 }
-            }
             }
             size = dq.size();
-            if(size > 0){
-                c++;
-            }
-            System.out.println("size : "+size);
-            System.out.println("C : "+c);
-        }
-        return c;
-
-    }
-    public static ArrayList<ArrayList<Integer>> findRottenOrange(int[][] grid,boolean[][] tracker){
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[i].length;j++){
-                if(grid[i][j] == 2 && tracker[i][j] == false){
-                    tracker[i][j] = true;
-                    res.add(new ArrayList<>(Arrays.asList(i,j)));
-                }
-            }
+            res.add(arr);
         }
         return res;
     }
 
-    public static boolean checkIfFreshOrangeExists(int[][] grid){
-        for(int[] gr: grid){
-            for(int g : gr){
-                if(g == 1){
-                    return true;
-                }
+    public static ArrayList<Integer> ans_weights(HashMap<Integer,Integer> map,ArrayList<ArrayList<Integer>> res,int weight){
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=0;i<res.size();i++){
+            for(int j=0;j<res.get(i).size();j++){
+                System.out.println("i : "+i+" j : "+j+" = "+res.get(i).get(j));
+                int key = res.get(i).get(j);
+                int val = weight * i;
+                map.put(key, val);
             }
         }
-        return false;
+        return ans;
     }
 }
