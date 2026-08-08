@@ -4,33 +4,29 @@ import java.util.Arrays;
 
 class Main{
     public static void main(String[] args) {
-        int[] nums = {4,3,2,6};
-        int max_sum = Integer.MIN_VALUE;
-        System.out.println(Arrays.toString(nums));
-        for(int i=1;i<=nums.length;i++){
-            rotateArr(nums);
-            int sum = sumOfArr(nums);
-            System.out.println("Sum : "+sum);
-            if(sum > max_sum){
-                max_sum = sum;
+        int[] nums = {1,1,1};
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int a : nums){
+            arr.add(a);
+            arr.add(-a);
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        backtrack(arr, list, 1, 0,nums.length);
+        System.out.println(arr);
+    }
+    public static void backtrack(ArrayList<Integer>  arr,ArrayList<Integer> list,int tar,int sum,int len){
+        if(list.size() == len){
+            // System.out.println(list);
+            if(sum == tar){
+                System.out.println(list);
             }
-            System.out.println(Arrays.toString(nums));
+            return;
         }
-        System.out.println(max_sum);
-    }
-    public static void rotateArr(int[] arr){
-        for(int i=0;i<arr.length;i++){
-            int last = arr[arr.length -1];
-            int frst = arr[i];
-            arr[arr.length - 1] = frst;
-            arr[i] = last;
+        for(int a : arr){
+            list.addLast(a);
+            sum+=a;
+            backtrack(arr, list, tar, sum,len);
+            sum-=list.removeLast();
         }
-    }
-    public static int sumOfArr(int[] arr){
-        int sum = 0;
-        for(int i=0;i<arr.length;i++){
-            sum += (i * arr[i]);
-        }
-        return sum;
     }
 }
