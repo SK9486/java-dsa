@@ -2,31 +2,28 @@ import java.util.ArrayList;
 
 class Hello{
     public static void main(String[] args) {
-        int n = 7;
-        ArrayList<Integer> arr = new ArrayList<>();
-        for(int i=1;i<=n;i++){
-            arr.add(i);
-        }
-        System.out.println(arr);
-        int i =0;
-        int si = arr.size();
-        System.out.println("si : "+si);
-        while(arr.size() > 1){
-            if(i == 0){
-                arr= removeOdd(arr);
-                System.out.println(arr);
+        String inp = "PROGRAM";
+        int n = inp.length();
+        int mid = n/2;
+        // System.out.println(n+" "+mid);
+        String str = "";
+        for(int i=0;i<n;i++){
+            String temp = "";
+            for(int j=0;j<n;j++){
+                int cnd = (n-1)-i;
+                if(j<cnd){
+                    temp+="*";
+                }
+            }
+            // System.out.println(temp);
+            if(i<=mid){
+                str+=inp.charAt((i+mid));
             }else{
-                break;
+                str+=inp.charAt(((i-1)-mid));
             }
-            i++;
+            temp+=str;
+            // System.out.println(str);
+            System.out.println(temp);
         }
-    }
-    public static ArrayList<Integer> removeOdd(ArrayList<Integer> arr){
-        for(int i=0;i<arr.size();i++){
-            if(i % 2 != 0){
-                arr.remove(i);
-            }
-        }
-        return arr;
     }
 }
