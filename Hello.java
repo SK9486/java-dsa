@@ -1,92 +1,63 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
-class Hello{
+class Hello {
     public static void main(String[] args) {
-       int[][] matx = {
-    {49, 50, 45, 12, 33, 19},
-    {11, 27, 44, 17, 14, 47},
-    {38, 12, 12, 50, 13, 19},
-    {46, 21, 10, 46, 39, 48},
-    {28, 43, 43, 20, 43, 20},
-    {29, 45, 39, 36, 10, 38}
-};
-       int[][] trans = new int[matx[0].length][matx.length];
-       for(int i=0;i<matx[0].length;i++){
-        for(int j=0;j<matx.length;j++){
-            trans[i][j] = matx[j][i];
+        int[] nums = { 3, 4, 16, 8 };
+        Arrays.sort(nums);
+        int n = nums.length;
+        ArrayList<ArrayList<Integer>> dp = new ArrayList<>();
+        for (int a : nums) {
+            dp.add(new ArrayList<>(Arrays.asList(a)));
         }
-       }
-       printArr(matx);
-       System.out.println();
-       printArr(trans);
-
-       int c1 = findEvenConsicitive(matx);
-       System.out.println();
-       int c2 = findOddConsicitive(matx);
-       System.out.println();
-       int c3 = findEvenConsicitive(trans);
-       System.out.println();
-       int c4 = findOddConsicitive(trans);
-       System.out.println();
-       System.out.println("c1 : "+c1);
-       System.out.println("c2 : "+c2);
-       System.out.println("c3 : "+c3);
-       System.out.println("c4 : "+c4);
-       int c = Math.max(Math.max(c1,c2),Math.max(c3,c4));
-       System.out.println("c : "+c);
-    }
-    public static void printArr(int[][] mat){
-        for(int[] rows : mat){
-            for(int a : rows){
-                System.out.print(a+" ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static int findEvenConsicitive(int[][] mat){
-        int maxC = 0;
-        for(int[] row : mat){
-            int c = 0;
-            for(int a : row){
-                if(a % 2 == 0){
-                    c++;
-                    System.out.println("even : "+a+" c : "+c);
-                }else{
-                    System.out.println("not even" +a+" founded c : "+c);
-                    maxC = Math.max(c, maxC);
-                    c=0;
+        printDp(dp);
+        System.out.println();
+        for (int i = 1; i < n; i++) {
+            int curr = nums[i];
+            ArrayList<Integer> prsereved_prev = dp.get(i);
+            ArrayList<ArrayList<Integer>> prev_dp = new ArrayList<>();
+            for (int j = 0; j < i; j++) {
+                int prev = nums[j];
+                if (prev % curr == 0 || curr % prev == 0) {
+                    ArrayList<Integer> prev_arr = dp.get(j);
+                    ArrayList<Integer> copy = new ArrayList<>(prev_arr);
+                    copy.add(curr);
+                    prev_dp.add(copy);
                 }
             }
-            if(c != 0){
-                maxC = Math.max(c, maxC);
-                c = 0;
+            ArrayList<Integer> longest = findLongest(prev_dp);
+            System.out.println("longest : ");
+            System.out.println(longest);
+            if (longest.isEmpty()) {
+                dp.set(i, prsereved_prev);
+            } else {
+                dp.set(i, longest);
             }
+            printDp(prev_dp);
         }
-        return maxC;
+        printDp(dp);
+
+        ArrayList<Integer> final_ans = findLongest(dp);
+        System.out.println("final ans");
+        System.out.println(final_ans);
     }
 
-    public static int findOddConsicitive(int[][] mat){
-        int maxC = -1;
-        for(int[] row : mat){
-            int c  =0;
-            for(int a : row){
-                System.out.println("a : "+a);
-                if(a % 2 != 0){
-                    c++;
-                   System.out.println("odd : "+a+" c : "+c);
-                }else{
-                    System.out.println("not odd "+a+" founded c : "+c);
-                    maxC = Math.max(c, maxC);
-                    c=0;
-                }
-            }
-            if(c != 0){
-                maxC = Math.max(c, maxC);
-                c = 0;
+    public static void printDp(ArrayList<ArrayList<Integer>> dp) {
+        System.out.println("DP : ");
+        for (ArrayList<Integer> ar : dp) {
+            System.out.println(ar);
+        }
+    }
+
+    public static ArrayList<Integer> findLongest(ArrayList<ArrayList<Integer>> prev_dp) {
+        ArrayList<Integer> longest = new ArrayList<>();
+        for (ArrayList<Integer> ar : prev_dp) {
+            int len1 = longest.size();
+            int len2 = ar.size();
+            if (len2 > len1) {
+                longest = ar;
             }
         }
-        System.out.println("maxC : "+maxC);
-        return maxC;
+        return longest;
     }
 }
