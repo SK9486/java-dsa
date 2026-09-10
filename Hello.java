@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Hello {
     public static void main(String[] args) {
-        int[] arr = { 3, 3, 3, 3 };
+        int[] arr = { 2, 1, 1, 1, 3, 3, 3, 2 };
         int[] c = { Integer.MAX_VALUE };
         recursion(arr, 0, c);
         System.out.println("final : " + c[0]);
@@ -38,7 +38,7 @@ public class Hello {
             if (i > 0) {
                 prev = arr[i - 1];
             }
-            if (curr == 0 || prev == curr) {
+            if (prev == curr) {
                 c++;
                 arr[i] = 0;
             }
