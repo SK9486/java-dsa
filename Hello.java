@@ -1,49 +1,40 @@
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hello {
     public static void main(String[] args) {
-        int[] arr = { 2, 1, 1, 1, 3, 3, 3, 2 };
-        int[] c = { Integer.MAX_VALUE };
-        recursion(arr, 0, c);
-        System.out.println("final : " + c[0]);
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        while (n != 0) {
+            int m = sc.nextInt();
+            sc.nextLine();
+            String str = sc.nextLine();
+            int ans = prefixSum(str);
+            System.out.println(ans);
+            n--;
+        }
     }
 
-    public static void recursion(int[] arr, int i, int[] c) {
-        if (i == arr.length) {
-            System.out.println(Arrays.toString(arr));
-            int c1 = findMinDays(0, arr);
-            c[0] = Math.min(c[0], c1);
-            return;
+    public static int prefixSum(String str) {
+        if (str.charAt(0) == '0' || str.contains("00")) {
+            return -1;
         }
-        int curr = arr[i];
-        if (curr == 3) {
-            int[] arr1 = Arrays.copyOf(arr, arr.length);
-            arr1[i] = 1;
-            int[] arr2 = Arrays.copyOf(arr, arr.length);
-            arr2[i] = 2;
-            recursion(arr1, i + 1, c);
-            recursion(arr2, i + 1, c);
+        if (str.contains("+-") || str.contains("-+")) {
+            if (str.contains("+--+") || str.contains("-++-")) {
+                return 3;
+            } else {
+                return 2;
+            }
         } else {
-            recursion(arr, i + 1, c);
+            for (int i = 0; i < str.length(); i++) {
+                char ch = str.charAt(i);
+                if (i % 2 == 0 && ch == '0') {
+                    return 2;
+                }
+            }
+            return 1;
         }
     }
 
-    public static int findMinDays(int prev, int[] arr) {
-        int c = 0;
-        for (int i = 0; i < arr.length; i++) {
-            int curr = arr[i];
-            if (i > 0) {
-                prev = arr[i - 1];
-            }
-            if (prev == curr) {
-                c++;
-                arr[i] = 0;
-            }
-        }
-        System.out.println("c : " + c);
-        return c;
-    }
 }
