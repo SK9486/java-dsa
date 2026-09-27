@@ -1,69 +1,85 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Hello {
     public static void main(String[] args) {
-        int[] arr = { 3, 0, 0, 1 };
-        int[] dp = new int[arr.length + 1];
-        ArrayList<ArrayList<Integer>> possibe_paths = new ArrayList<>();
-        for (ArrayList<Integer> ar : possibe_paths) {
-            System.out.println(ar);
+        int r = 6;
+        int c = 7;
+        // int[][] grid = new int[c][r];
+        int[][] grid = {
+                { 0, 0, 3, 1, 1, 1, 0 },
+                { 0, 0, 0, 1, 1, 1, 1 },
+                { 1, 1, 1, 1, 0, 0, 0 },
+                { 0, 1, 0, 1, 0, 0, 0 },
+                { 5, 0, 1, 0, 0, 0, 0 },
+                { 1, 1, 1, 0, 1, 0, 1 }
+        };
+        boolean[][] track = new boolean[r][c];
+        int[][] dist = new int[r][c];
+        int[] st = findSt(grid, r, c);
+        int i = st[0];
+        int j = st[1];
+        if (i == -1) {
+            System.out.println("st not found");
+            return;
+        } else {
+            bfs(i, j, grid, track, r, c, dist);
         }
-        for (int i = 0; i <= arr.length; i++) {
-            ArrayList<Integer> path = new ArrayList<>();
-            possibe_paths.add(path);
-        }
-        printArr(possibe_paths);
-        // ADDING THE POSSIBLE PATHSW
-        for (int i = 0; i < possibe_paths.size(); i++) {
-            if (i < arr.length) {
-                int curr = arr[i];
-                System.out.println("curr : " + curr);
-                for (int j = 1; j <= curr; j++) {
-                    int idx = i + j;
-                    if (idx < possibe_paths.size()) {
-                        ArrayList<Integer> path = possibe_paths.get(idx);
-                        path.add(i);
-                    }
-                    System.out.println("idx : " + idx);
-                }
-            }
-        }
-        // printArr(possibe_paths);
-        // System.out.println("dp : ");
-        // System.out.println(Arrays.toString(dp));
-
-        for (int i = 1; i < dp.length; i++) {
-            ArrayList<Integer> path = possibe_paths.get(i);
-            // System.out.println("i : " + i);
-            if (!path.isEmpty()) {
-                int min_idx = path.get(0);
-                int min_val = dp[min_idx];
-                // System.out.println("min idx : " + min_idx);
-                // System.out.println("min val : " + min_val);
-                for (int j = 1; j < path.size(); j++) {
-                    int curr_idx = path.get(j);
-                    int curr_val = dp[curr_idx];
-                    if (curr_val < min_val) {
-                        min_val = curr_val;
-                        min_idx = curr_idx;
-                    }
-                }
-                dp[i] = 1 + min_val;
-                // System.out.println("min val : " + min_val);
-            }
-
-        }
-        // System.out.println("dp : ");
-        // System.out.println(Arrays.toString(dp));
-
-        System.out.println(dp[dp.length - 1]);
+        printDist(dist);
     }
 
-    public static void printArr(ArrayList<ArrayList<Integer>> arr) {
-        for (ArrayList<Integer> ar : arr) {
-            System.out.println(ar);
+    public static void bfs(int x, int y, int[][] grid, boolean[][] track, int r, int c, int[][] dist) {
+        Deque<int[]> dq = new ArrayDeque<>();
+        // st.push(new int[] { x, y });
+        dq.addLast(new int[] { x, y });
+        track[x][y] = true;
+        dist[x][y] = 0;
+        while (!dq.isEmpty()) {
+            int[] poped = dq.removeFirst();
+            int i = poped[0];
+            int j = poped[1];
+            int[][] dirs = { { i - 1, j }, { i + 1, j }, { i, j + 1 }, { i, j - 1 }, { i - 1, j - 1 },
+                    { i + 1, j + 1 } };
+            for (int[] dir : dirs) {
+                int a = dir[0];
+                int b = dir[1];
+                if (a >= 0 && a < r && b >= 0 && b < c && !track[a][b] && (grid[a][b] == 1 || grid[a][b] == 5)) {
+                    track[a][b] = true;
+                    dist[a][b] = dist[i][j] + 1;
+                    dq.addLast(new int[] { a, b });
+                    if (grid[a][b] == 5) {
+                        System.out.println("reached the end");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public static int[] findSt(int[][] grid, int r, int c) {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] == 3) {
+                    return new int[] { i, j };
+                }
+            }
+        }
+        return new int[] { -1, -1 };
+    }
+
+    public static void printTracer(boolean[][] track) {
+        for (boolean[] tr : track) {
+            System.out.println(Arrays.toString(tr));
+        }
+    }
+
+    public static void printDist(int[][] dist) {
+        for (int[] dis : dist) {
+            System.out.println(Arrays.toString(dis));
         }
     }
 }
