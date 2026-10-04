@@ -4,54 +4,77 @@ import java.util.Scanner;
 public class Hello {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String base = sc.nextLine();
-        int[] base_counter = counter(base);
-        // System.out.println("base_counter : ");
-        // System.out.println(Arrays.toString(base_counter));
         int n = sc.nextInt();
-        sc.nextLine();
-        for (int i = 0; i < n; i++) {
-            String str = sc.nextLine();
-            int[] char_count = counter(str);
-            // System.out.println("charc counter : ");
-            // System.out.println(Arrays.toString(char_count));
-            if (!compareCounters(base_counter, char_count)) {
-                System.out.println("No");
-                return;
+        int k = sc.nextInt();
+        boolean isDetected = false;
+        int[] arr = new int[n + 1];
+        for (int i = 1; i < n + 1; i++) {
+            arr[i] = sc.nextInt();
+        }
+        // System.out.println("arr : ");
+        // System.out.println(Arrays.toString(arr));
+        int possible_range = n - k + 2;
+        for (int i = 1; i <= possible_range && i + k < n + 1; i++) {
+            // System.out.println("i : " + i);
+            boolean beforePartSorted = checkIfSorted(arr, 1, i - 1);
+            // int[] beforePArt = Arrays.copyOfRange(arr, 1, i);
+            // System.out.println("BeforePArt : ");
+            // System.out.println(Arrays.toString(beforePArt));
+            if (!beforePartSorted) {
+                // System.out.println("No");
+                isDetected = true;
+                break;
+            }
+            // int[] afterPart = Arrays.copyOfRange(arr, i + k, arr.length);
+            // System.out.println("AfterPart : ");
+            // System.out.println(Arrays.toString(afterPart));
+            boolean afterPartSorted = checkIfSorted(arr, i + k, arr.length - 1);
+            if (!afterPartSorted) {
+                // System.out.println("No");
+                isDetected = true;
+                break;
+            }
+            int[] ans = findMinAndMax(arr, i, i + k - 1);
+            int max = ans[0];
+            int min = ans[1];
+            int beforePartLast = arr[i - 1];
+            int afterPartFirst = arr[i + k];
+            if (beforePartLast > min || afterPartFirst < max) {
+                isDetected = true;
+                break;
             }
         }
-        System.out.println("Yes");
+        if (isDetected) {
+            System.out.println("No");
+        } else {
+            System.out.println("Yes");
+        }
 
     }
 
-    public static int[] counter(String str) {
-        int[] chars_count = new int[27];
-        for (char ch : str.toCharArray()) {
-            int ascii = (ch - 'a') + 1;
-            chars_count[ascii]++;
-            // System.out.println("ascii : " + ascii);
+    public static int[] findMinAndMax(int[] arr, int i, int j) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int k = i; k <= j; k++) {
+            int ele = arr[k];
+            max = Math.max(ele, max);
+            min = Math.min(ele, min);
         }
-        return chars_count;
+        return new int[] { max, min };
     }
 
-    public static boolean compareCounters(int[] base, int[] count) {
-        for (int i = 1; i < 27; i++) {
-            if (count[i] != 0) {
-                if (count[i] <= base[i] && base[i] != 0) {
-                    // System.out.println("VALID");
-                } else {
-                    // System.out.println("INVALID at : " + i);
-                    // System.out.println("left : " + count[i] + " right: " + base);
-                    return false;
-                }
+    public static boolean checkIfSorted(int[] arr, int st, int ed) {
+        int i = st;
+        int j = i + 1;
+        while (j <= ed && j < arr.length) {
+            int ele1 = arr[i];
+            int ele2 = arr[j];
+            if (ele2 < ele1) {
+                return false;
             }
+            i++;
+            j++;
         }
         return true;
     }
 }
-
-// telephonegrammary
-// 3
-// telegram
-// "memory"
-// elegant
