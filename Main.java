@@ -1,78 +1,28 @@
-import java.util.Deque;
-import java.util.LinkedList;
-
-class Node {
-   int value;
-   Node left;
-   Node right;
-
-   Node(int value) {
-      this.value = value;
-      this.left = null;
-      this.right = null;
-   }
-}
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
    public static void main(String[] args) {
-
-      Node root = new Node(10);
-
-      root.left = new Node(5);
-      root.right = new Node(15);
-
-      root.left.left = new Node(2);
-      root.left.right = new Node(7);
-
-      root.right.left = new Node(12);
-      root.right.right = new Node(20);
-
-      inOrder(root);
-      System.out.println();
-      preOrder(root);
-      System.out.println();
-      postOrder(root);
-      System.out.println();
-      bfs(root);
-
+      ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1, 4, 2, 3));
+      int cost = recursion(1, arr, 0);
+      System.out.println(cost);
    }
 
-   public static void inOrder(Node root) {
-      if (root == null)
-         return;
-      inOrder(root.left);
-      System.out.print(root.value + " ");
-      inOrder(root.right);
-   }
-
-   public static void preOrder(Node root) {
-      if (root == null)
-         return;
-      System.out.print(root.value + " ");
-      preOrder(root.left);
-      preOrder(root.right);
-   }
-
-   public static void postOrder(Node root) {
-      if (root == null)
-         return;
-      postOrder(root.left);
-      postOrder(root.right);
-      System.out.print(root.value + " ");
-   }
-
-   public static void bfs(Node root) {
-      Deque<Node> dq = new LinkedList<>();
-      dq.add(root);
-      while (!dq.isEmpty()) {
-         Node poped = dq.removeFirst();
-         if (poped.left != null) {
-            dq.addLast(poped.left);
-         }
-         if (poped.right != null) {
-            dq.addLast(poped.right);
-         }
-         System.out.print(poped.value + " ");
+   public static int recursion(int branchCost, ArrayList<Integer> bottles, int cost) {
+      if (bottles.size() <= 1) {
+         int poped = bottles.removeLast();
+         int finalCost = cost + (poped * branchCost);
+         System.out.println("final Cost : " + finalCost);
+         return finalCost;
       }
+      ArrayList<Integer> arr1 = new ArrayList<>(bottles);
+      ArrayList<Integer> arr2 = new ArrayList<>(bottles);
+      int popped1 = arr1.removeFirst();
+      int cost1 = branchCost * popped1;
+      int final1 = recursion(branchCost + 1, arr1, cost + cost1);
+      int popped2 = arr2.removeLast();
+      int cost2 = branchCost * popped2;
+      int final2 = recursion(branchCost + 1, arr2, cost + cost2);
+      return Math.max(final1, final2);
    }
 }
