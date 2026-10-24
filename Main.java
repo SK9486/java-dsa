@@ -7,15 +7,19 @@ public class Main {
       int N = sc.nextInt();
       int S = sc.nextInt();
       int[] arr = new int[N];
+      int curr;
+      int prev;
       for (int i = 0; i < N; i++) {
          arr[i] = sc.nextInt();
-         if (i > 0) {
-            int curr = arr[i];
-            int prev = arr[i - 1];
-            if (curr - prev >= (S + 0.5)) {
-               System.out.println("No");
-               return;
-            }
+         if (i == 0) {
+            prev = 0;
+         } else {
+            prev = arr[i - 1];
+         }
+         curr = arr[i];
+         if ((curr - prev) >= (S + 0.5)) {
+            System.out.println("No");
+            return;
          }
       }
       System.out.println("Yes");
