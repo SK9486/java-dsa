@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Hello {
     public static void main(String[] args) {
-        String str = "happyne";
+        String str = "orange";
         int n = str.length();
         System.out.println(str.charAt(0));
         int st = 1;
