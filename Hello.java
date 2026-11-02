@@ -2,24 +2,26 @@ import java.util.*;
 
 public class Hello {
     public static void main(String[] args) {
-        String str = "happy";
+        String str = "happyne";
         int n = str.length();
-        if (n % 2 != 0) {
-            str += "*";
-        }
-        int curr = 0;
-        int inc = 2;
         System.out.println(str.charAt(0));
-        while (curr < n - 1) {
-            curr += inc;
-            inc++;
-            int prt = curr;
-            for (int i = 0; i < inc - 1; i++) {
-                System.out.print(str.charAt(prt));
-                prt--;
+        int st = 1;
+        int i = 1;
+        int ed = st + i;
+        while (st < n) {
+            // System.out.println(st + " " + ed);
+            String sub = "";
+            for (int j = ed; j >= st; j--) {
+                if (j >= n) {
+                    sub += "*";
+                } else {
+                    sub += str.charAt(j);
+                }
             }
-            System.out.println();
+            System.out.println(sub);
+            st = ed + 1;
+            i++;
+            ed = st + i;
         }
-
     }
 }
